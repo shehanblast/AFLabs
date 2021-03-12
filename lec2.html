@@ -1,0 +1,167 @@
+<html>
+<head>
+    <title>Lect 2</title>
+    <style>
+        body{
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+
+<script type="text/javascript">
+
+    //object creation
+    var person = {
+        name : 'John',
+        occupation : 'Engineer',
+        getNaame : function (){
+            return this.name;
+        }
+    }
+
+    //create instance from object
+    var jane = Object.create(person);
+
+    jane.name = "Jane";
+    jane.occupation = "IT";
+
+    console.log(person.getNaame());
+    console.log(jane.getNaame());
+    console.log(person);
+    console.log(jane);
+    console.log(person.getNaame === jane.getNaame);
+
+    /////////////////////////////////////////////////////////////////////////////
+    //create a class
+
+    function Person(name){
+        this.name =  name;
+    }
+
+    Person.prototype.getName = function (){
+        return this.name;
+    }
+
+    //create an object
+    var p1 = new Person("jj");
+
+    console.log(p1.name);
+    console.log(p1);
+
+    console.log(Person.prototype === p1.__proto__);
+
+    //Inheritance
+    function Employee(name,occu){
+        Person.call(this, name); //get the properties from the parent class
+        this.occu = occu;
+    }
+
+    Employee.prototype.getName = function (){
+        return this.occu;
+    }
+
+    Employee.prototype = Object.create(Person.prototype);//make a copy of the prototype and give it to employee
+    Employee.prototype.constructor = Employee;
+
+    var E1 = new Employee("Dulan","Leader");
+
+    console.log(E1.occu);
+    console.log(E1);
+
+    console.log(Employee.prototype === Person.prototype);
+
+    //Static objects
+    function Vehicle(type){
+        Vehicle.v2++;
+        this.type = type;
+    }
+
+    Vehicle.prototype.getType = function (){
+        return this.type;
+    }
+
+    Vehicle.v2 = 0; //static objects
+
+    var v1 = new Vehicle("Car");
+
+    console.log(v1.getType());
+    console.log(Vehicle.v2);
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //callback
+
+    function getValue(callback){
+        let value = 0;
+        setTimeout(function (){
+            value = 10;
+            callback(value);
+        }, 1000);
+    }
+
+    getValue(function (value){
+        console.log(value);
+    });
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //promise
+    //Ex1
+
+    function getValue(){
+        let value = 0;
+        return new Promise(function (resolve){
+
+            setTimeout(function (){
+                value = 10;
+                //marks the successful completion of the async operation
+                resolve(value);
+            }, 1000);
+
+        });
+
+    }
+
+    //after resolve is done 'then' will execute
+    getValue().then(newvalue => {
+        console.log(newvalue);
+    })
+
+    //Ex2
+
+    function getRandom(){
+        let value = 0;
+        return new Promise(function (resolve,reject){
+
+            setTimeout(function (){
+                value = Math.floor(Math.random() * 10);
+                if (value % 2 === 0){
+                    //marks the successful completion of the async operation
+                    resolve(value);
+                    return;
+                }
+                reject(new Error('Invalid Input'));
+            }, 1000);
+
+        });
+
+    }
+
+    //after resolve is done 'then' will execute
+    getRandom().then(newvalue => {
+        console.log(newvalue);
+    }).catch(e => {
+        console.log(e);
+    }).finally(() => {
+        console.log("Execution Finished");
+    })
+
+    
+
+
+</script>
+
+</body>
+</html>
