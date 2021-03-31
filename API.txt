@@ -1,0 +1,89 @@
+https://sliit.lk/api
+
+POST	v1/faculties
+GET		v1/faculties
+GET		v1/faculties/{faculty id}
+PUT 	v1/faculties/{faculty id}
+DELETE 	v1/faculties/{faculty id}
+PATCH 	v1/faculties/{faculty id}
+
+New Version --------------------------------------------------
+POST	v2/faculties
+
+Complete URl -------------------------------------------------
+https://sliit.lk/api/v1/faculties
+
+Add a Department to facultie ---------------------------------
+POST	v1/faculties/{faculty id}/departments
+
+Get a Department ---------------------------------------------
+GET		v1/faculties/{faculty id}/departments/{department id} 
+GET		v1/departments/{department id}    
+
+Query Parameters ---------------------------------------------
+GET		v1/faculties?grant=curtin
+GET		v1/faculties?order-by=name   
+GET		v1/faculties?order-by=name&grant=curtin
+
+Casess -------------------------------------------------------
+order-by	= spinal (Rec for APIs)
+orderBy		= camel	
+order_by	= snake
+
+Requst Body --------------------------------------------------
+{
+	id: 1,
+	name: 'Computer science',
+	description: 'Computer science faculty',
+	departments : [
+		{
+			id: 1,
+			name: 'IT'
+		},
+		{
+			id: 2,
+			name: 'CS'
+		},
+		{
+			id: 3,
+			name: 'NE'
+		}
+	]
+}
+Using Hypermedia -
+{
+	data:[
+		{
+			id: 1,
+			name: 'Computer science',
+			description: 'Computer science faculty',
+			departments : [
+				'v1/departments/1',
+				'v1/departments/2',
+				'v1/departments/3'
+			],
+			_links:{
+				_self: 'v1/departments/2' //What it;s belong to
+			}
+		},
+		{
+			id: 2,
+			name: 'Business studies',
+			description: 'Business studies faculty',
+			departments : [
+				'v1/departments/4',
+				'v1/departments/5',
+				'v1/departments/6'
+			],
+			_links:{
+				_self: 'v1/departments/6' 
+			}
+		}
+	],
+	_links:{
+		_self:'v1/faculties?page-size=2&page=1',
+		next: 'v1/faculties?page-size=2&page=2'
+	}
+}
+
+
