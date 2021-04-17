@@ -1,7 +1,7 @@
 const Router =  require('@koa/router');
 const uuid = require('uuid');
 
-let post = new Map();
+let posts = new Map();
 
 let createPost = (obj) => {
     let post = {
@@ -10,19 +10,20 @@ let createPost = (obj) => {
         name : obj.name,
         description : obj.description
     };
-    posts.set(post.id)
-}
+    posts.set(post.id);
+    return post;
+};
 
-const router = new Router({
-    prefix: '/posts'
-});
+let getPosts = () => {
+    return [...posts.values];
+};
 
-router.get('/', ctx => {
-    ctx.body = 'jjks';
-});
-router.post('/', ctx => {
-    ctx.body = 'Hello World - post';
-});
+let getPost = (id) => {
+    return posts.get(id);
+};
 
-module.exports = router;
-
+module.exports = {
+    getPost,
+    createPost,
+    getPosts
+};
