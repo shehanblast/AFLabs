@@ -15,7 +15,7 @@ let createPost = (obj) => {
 };
 
 let getPosts = () => {
-    return [...posts.values];
+    return [...posts.values()];
 };
 
 let getPost = (id) => {
